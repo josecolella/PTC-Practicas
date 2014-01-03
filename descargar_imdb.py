@@ -4,7 +4,6 @@
 # cuya complejidad maxima es O(n)
 
 import urllib.request
-
 import gzip  # Para trabajar con gzip
 from utilidades import *
 import os.path
@@ -64,8 +63,8 @@ def saveDatabase(filename, database):
     assert type(
         filename) == str, 'El primer parametro tiene que ser una cadena de caracteres'
     db = shelve.open(filename)
-    for key, value in database.items():
-        db[key] = value
+    # Guardar el diccionario en disco
+    db.update(database)
     db.close()
 
 
