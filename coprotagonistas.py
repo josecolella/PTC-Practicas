@@ -35,3 +35,4 @@ def getRelationalMovies(person1, person2):
 if __name__ == '__main__':
 
     print(getRelationalMovies('Angelina Jolie', 'Kristen Hager'))
+    print(getRelationalMovies('Angelina Jolie', 'Rachel Appleton'))

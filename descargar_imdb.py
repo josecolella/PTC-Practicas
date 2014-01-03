@@ -89,6 +89,7 @@ def processFile(file):
 
     db = {}
     moviedb = {}
+    actorsWorkedWith = {}
     for i in f:
         # Actor plus first movie
         match = re.search(actorFirstMovieRegex, i)
@@ -151,6 +152,18 @@ def processFile(file):
     return db, moviedb
 
 
+def processActorsWorkedWith(movieDB):
+    actorsWorkedWith = {}
+    for i in movieDB.values():
+        for j in i:
+            workedWith = [actor for actor in i if actor != j]
+            if j not in actorsWorkedWith:
+                actorsWorkedWith[j] = workedWith
+            else:
+                actorsWorkedWith[j].extend(workedWith)
+    return actorsWorkedWith
+
+
 if __name__ == '__main__':
 
     # Descarga lista de actrices
@@ -161,19 +174,21 @@ if __name__ == '__main__':
     # Procesamiento de información
     # if hasChangedActressFile:
     actressdb, actressMovieDB = processFile(normalActress)
+    print("Las actrices se estan grabando")
     saveDatabase('moviedb.bin', actressdb)
     print("Las actrices han sido grabada")
+    print("Guardando información sobre grados de separación")
     saveDatabase('degree.bin', actressMovieDB)
-    print("Las peliculas de las actrices han sido grabadas")
+    print("información sobre el grado de información se ha grabado")
 # else:
     # print("La información de las actrices ya esta en las bases de datos")
 
-    # # Descargar lista de actores
+    # Descargar lista de actores
     # normalActor = getFilenameUrl(actorsListUrl)[0]
-    # # Descarga lista de actores
+    # Descarga lista de actores
     # hasChangedActorFile = downloadFile(actorsListUrl, normalActor)
 
-    # # Procesamiento de información
+    # Procesamiento de información
     # if hasChangedActorFile:
     #     actordb, actorMovieDB = processFile(normalActor)
     #     saveDatabase('moviedb.bin', actordb)
