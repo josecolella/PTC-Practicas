@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from peliculas_actor import search
+import shelve
+import os.path
 
 
 def getRelationalMovies(person1, person2):
@@ -11,12 +12,21 @@ def getRelationalMovies(person1, person2):
 
     @return list Una lista de peliculas en las cual son coprotagonistas
     """
-    person1Movies = (search(person1)).values()
-    person2Movies = (search(person2)).values()
-    person1Movies = [[(i[0], i[1]) for i in j] for j in person1Movies]
-    person2Movies = [[(i[0], i[1]) for i in j] for j in person2Movies]
-    person1Movies = person1Movies[0]
-    person2Movies = person2Movies[0]
+    assert os.path.isfile("moviedb.bin"), "La base de datos no esta creada"
+    db = shelve.open("moviedb.bin")
+    try:
+        person1Movies = db[person1]
+        person2Movies = db[person2]
+    except KeyError:
+        for key in db:
+            if person1 in key:
+                person1Movies = db[key]
+            if person2 in key:
+                person2Movies = db[key]
+
+    db.close()
+    person1Movies = [(i[0], i[1]) for i in person1Movies]
+    person2Movies = [(i[0], i[1]) for i in person2Movies]
     commonFilms = list(
         filter((lambda i: i in person1Movies and i in person2Movies),
                person1Movies))
@@ -24,4 +34,4 @@ def getRelationalMovies(person1, person2):
 
 if __name__ == '__main__':
 
-    print(getRelationalMovies('George Clooney', 'Matt Damon'))
+    print(getRelationalMovies('Angelina Jolie', 'Kristen Hager'))

@@ -113,12 +113,11 @@ def processFile(file):
             filmYear = filmYear.strip(
                 "()") if filmYear is not None else ''
             filmNameYear = filmName + " " + filmYear
-            if filmNameYear not in moviedb:
-                moviedb[filmNameYear] = []
+            moviedb[filmNameYear] = set()
             filmRole = filmRole.strip(
                 "[""]") if filmRole is not None else ''
             if act not in moviedb[filmNameYear]:
-                moviedb[filmNameYear].append(act)
+                moviedb[filmNameYear].add(act)
         else:
             # Se ha visto una pelicula
             match = re.search(movieRegex, i)
@@ -132,12 +131,12 @@ def processFile(file):
                     "()") if filmYear is not None else ''
                 filmNameYear = filmName + " " + filmYear
                 if filmNameYear not in moviedb:
-                    moviedb[filmNameYear] = []
+                    moviedb[filmNameYear] = set()
                 filmRole = filmRole.strip(
                     "[""]") if filmRole is not None else ''
                 try:
                     if act not in moviedb[filmNameYear]:
-                        moviedb[filmNameYear].append(act)
+                        moviedb[filmNameYear].add(act)
                 except UnboundLocalError:
                     pass
         # Si se ha encontrado una match
@@ -160,26 +159,26 @@ if __name__ == '__main__':
     hasChangedActressFile = downloadFile(actressListUrl, normalActress)
 
     # Procesamiento de información
-    if hasChangedActressFile:
-        actressdb, actressMovieDB = processFile(normalActress)
-        saveDatabase('moviedb.bin', actressdb)
-        print("Las actrices han sido grabada")
-        saveDatabase('degree.bin', actressMovieDB)
-        print("Las peliculas de las actrices han sido grabadas")
-    else:
-        print("La información de las actrices ya esta en las bases de datos")
+    # if hasChangedActressFile:
+    actressdb, actressMovieDB = processFile(normalActress)
+    saveDatabase('moviedb.bin', actressdb)
+    print("Las actrices han sido grabada")
+    saveDatabase('degree.bin', actressMovieDB)
+    print("Las peliculas de las actrices han sido grabadas")
+# else:
+    # print("La información de las actrices ya esta en las bases de datos")
 
-    # Descargar lista de actores
-    normalActor = getFilenameUrl(actorsListUrl)[0]
-    # Descarga lista de actores
-    hasChangedActorFile = downloadFile(actorsListUrl, normalActor)
+    # # Descargar lista de actores
+    # normalActor = getFilenameUrl(actorsListUrl)[0]
+    # # Descarga lista de actores
+    # hasChangedActorFile = downloadFile(actorsListUrl, normalActor)
 
-    # Procesamiento de información
-    if hasChangedActorFile:
-        actordb, actorMovieDB = processFile(normalActor)
-        saveDatabase('moviedb.bin', actordb)
-        print("Los actores han sido grabada")
-        saveDatabase('degree.bin', actorMovieDB)
-        print("Las peliculas de los actores han sido grabadas")
-    else:
-        print("La información de los actores ya esta en las bases de datos")
+    # # Procesamiento de información
+    # if hasChangedActorFile:
+    #     actordb, actorMovieDB = processFile(normalActor)
+    #     saveDatabase('moviedb.bin', actordb)
+    #     print("Los actores han sido grabada")
+    #     saveDatabase('degree.bin', actorMovieDB)
+    #     print("Las peliculas de los actores han sido grabadas")
+    # else:
+    #     print("La información de los actores ya esta en las bases de datos")
