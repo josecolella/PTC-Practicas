@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Ejecutando el programa aproximadamente 30 minutos con algoritmos
-# cuya complejidad maxima es O(n)
+# Author: Jose Miguel Colella
 
 import urllib.request
 import gzip  # Para trabajar con gzip
@@ -39,6 +38,7 @@ def downloadFile(url, filename):
         isChanged = True
         fmod[fileNameNoExt + '-last-mod'] = getFileModDate(
             mainPageUrl, fileNameNoExt)
+        print("Se esta descargando el fichero: {}".format(filename))
         urllib.request.urlretrieve(url, filename)
     else:
         isChanged = False
@@ -202,17 +202,17 @@ if __name__ == '__main__':
     else:
         print("La información de los actores ya esta en las bases de datos")
 
-    print("Uniendo los dos diccionario de peliculas")
-    # Saving degree of separation information for both actors and actresses
-    merged = mergeDictionary(actorMovieDB, actressMovieDB)
-    # Liberar memoria
-    del actorMovieDB
-    del actressMovieDB
-    print("Procesando relaciones entre actores/actrices")
-    actorsWorkedWithDB = processActorsWorkedWith(merged)
+    if hasChangedActorFile:
+        print("Uniendo los dos diccionario de peliculas")
+        # Saving degree of separation information for both actors and actresses
+        merged = mergeDictionary(actorMovieDB, actressMovieDB)
+        # Liberar memoria
+        del actorMovieDB
+        del actressMovieDB
+        print("Procesando relaciones entre actores/actrices")
+        actorsWorkedWithDB = processActorsWorkedWith(merged)
 
-    print("Guardando Información sobre Grados de separación")
-    saveDatabase('degree.bin', actorsWorkedWithDB)
-    print("Información Grabada")
-
-    sys.exit(0)
+        print("Guardando Información sobre Grados de separación")
+        saveDatabase('degree.bin', actorsWorkedWithDB)
+        print("Información Grabada")
+        sys.exit(0)

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#Author: Jose Miguel Colella
 
 import shelve
 import os
