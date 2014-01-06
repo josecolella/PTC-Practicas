@@ -10,6 +10,7 @@ import os.path
 import shelve  # Para guardar información sobre fecha de modificación
 import re
 import codecs
+import sys
 
 
 def downloadFile(url, filename):
@@ -143,7 +144,8 @@ def processFile(file):
         if match:
             try:
                 moviesInfo.extend([filmName, filmYear, filmRole])
-                db[act].append(moviesInfo)
+                if moviesInfo not in db[act]:
+                    db[act].append(moviesInfo)
             except UnboundLocalError:
                 # Si no estan asignadas
                 pass
@@ -235,3 +237,5 @@ if __name__ == '__main__':
     print("Guardando Información sobre Grados de separación")
     saveDatabase('degree.bin', actorsWorkedWithDB)
     print("Información Grabada")
+
+    sys.exit(0)

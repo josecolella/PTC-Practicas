@@ -30,10 +30,13 @@ def search(personName):
 
 if __name__ == '__main__':
 
-    print("La actriz Rachel Appleton")
-    print("PERSON |--- FILM --- | --- YEAR --- | --- ROLE ---")
-    displayResults(search("Rachel Appleton"))
+    person1 = "Rachel Appleton"
+    person2 = 'Kristen Hager'
 
-    print("La actriz Angelina Jolie")
+    print("La actriz {}".format(person1))
     print("PERSON |--- FILM --- | --- YEAR --- | --- ROLE ---")
-    displayResults(search("Angelina Jolie"))
+    displayResults(search(person1))
+
+    print("La actriz {}".format(person2))
+    print("PERSON |--- FILM --- | --- YEAR --- | --- ROLE ---")
+    displayResults(search(person2))

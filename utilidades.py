@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Para poder interactua con HTTP
-import urllib.parse as parser
+# Para poder interactuar con HTTP
+import urllib.parse as parser  # Parser de url -> Tiempo de modificación
 import urllib.request as httpget
 import re
 
@@ -33,6 +33,10 @@ def getFileModDate(urlToParse, filename):
     """
     Devuelve la fecha de modificación del fichero que se pasa
     por parametro
+
+    @param urlToParse La url que se parsea
+    @param filename El nombre del fichero que se busca la fecha de modificación
+    @return str Última fecha de modificación
     """
     url = httpget.urlopen(mainPageUrl)
     date = (re.search(r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).+",
