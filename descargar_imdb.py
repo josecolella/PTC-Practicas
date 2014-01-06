@@ -57,8 +57,6 @@ def saveDatabase(filename, database):
     el nombre de dicho actor o actriz como valor
     llave y tenemos las peliculas, la fecha y el papel.
     El parametro de entrada tiene que ser de tipo diccionario
-
-    Complejidad: O(n)
     """
     assert type(database) == dict, 'El parametro tiene que ser un diccionario'
     assert type(
@@ -181,6 +179,7 @@ if __name__ == '__main__':
 
     # Procesamiento de información
     if hasChangedActressFile:
+        print("Las actrices se estan procesando")
         actressdb, actressMovieDB = processFile(normalActress)
         print("Las actrices se estan grabando")
         saveDatabase('moviedb.bin', actressdb)
@@ -195,6 +194,7 @@ if __name__ == '__main__':
 
     # Procesamiento de información
     if hasChangedActorFile:
+        print("Las actores se estan procesando")
         actordb, actorMovieDB = processFile(normalActor)
         print("Los actores se estan grabando")
         saveDatabase('moviedb.bin', actordb)
@@ -203,7 +203,7 @@ if __name__ == '__main__':
         print("La información de los actores ya esta en las bases de datos")
 
     if hasChangedActorFile:
-        print("Uniendo los dos diccionario de peliculas")
+        print("Uniendo los diccionarios de peliculas de actrices/actores")
         # Saving degree of separation information for both actors and actresses
         merged = mergeDictionary(actorMovieDB, actressMovieDB)
         # Liberar memoria
@@ -214,5 +214,7 @@ if __name__ == '__main__':
 
         print("Guardando Información sobre Grados de separación")
         saveDatabase('degree.bin', actorsWorkedWithDB)
+        #Liberar memoria
+        del actorsWorkedWithDB
         print("Información Grabada")
         sys.exit(0)

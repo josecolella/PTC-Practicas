@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Author: Jose Miguel Colella
 
 # Para poder interactuar con HTTP
 import urllib.parse as parser  # Parser de url -> Tiempo de modificación
@@ -71,7 +72,24 @@ def displayResults(searchResults):
     """
     Imprime la información de actor/actriz, peliculas, año, y rol
     """
-    for i, j in searchResults.items():
-        print("{}".format(i))
-        for k in j:
-            print("\t{}".format(k))
+    try:
+        for i, j in searchResults.items():
+            print("{}".format(i))
+            for k in j:
+                print("\t{}".format(k))
+    except Exception:
+        for i in searchResults:
+            print("\t{}".format(i))
+
+
+def findPersonRegex(db, personName):
+    # Si no se consigue persona
+    possibleDict = {}
+    actorRegex = re.compile(personName + '\s*(\(.*?\))?')
+    print("Mutiples personas con nombre: {}".format(personName))
+    possiblePeopleList = list(
+        filter(lambda i: re.search(actorRegex, i), db.keys()))
+    if len(possiblePeopleList) > 0:
+        for possiblePeople in possiblePeopleList:
+            possibleDict[possiblePeople] = db[possiblePeople]
+    return possibleDict

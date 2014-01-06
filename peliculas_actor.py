@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#Author: Jose Miguel Colella
+# Author: Jose Miguel Colella
 
 import shelve
 import os
-from utilidades import displayResults
+from utilidades import displayResults, findPersonRegex
 # Hacer una funcion que determine si un termino
 # de busqueda se repite en la base de datos. Si se repite se devuelve
 # las personas posibles. Determina el usuario final cual quiere
@@ -22,9 +22,8 @@ def search(personName):
     try:
         person[personName] = db[personName]
     except KeyError:
-        for key in db:
-            if personName in key:
-                person[key] = db[key]
+        person = findPersonRegex(db, personName)
+
     db.close()
     return person
 
@@ -33,6 +32,7 @@ if __name__ == '__main__':
 
     person1 = "Rachel Appleton"
     person2 = 'Kristen Hager'
+    person3 = 'Seth Rogen'
 
     print("La actriz {}".format(person1))
     print("PERSON |--- FILM --- | --- YEAR --- | --- ROLE ---")
@@ -41,3 +41,7 @@ if __name__ == '__main__':
     print("La actriz {}".format(person2))
     print("PERSON |--- FILM --- | --- YEAR --- | --- ROLE ---")
     displayResults(search(person2))
+
+    print("El actor {}".format(person3))
+    print("PERSON |--- FILM --- | --- YEAR --- | --- ROLE ---")
+    displayResults(search(person3))

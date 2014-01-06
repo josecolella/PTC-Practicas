@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#Author: Jose Miguel Colella
+# Author: Jose Miguel Colella
 
 import shelve
 import os.path
+from utilidades import findPersonRegex, displayResults
 
 
 def getRelationalMovies(person1, person2):
@@ -17,13 +18,12 @@ def getRelationalMovies(person1, person2):
     db = shelve.open("moviedb.bin")
     try:
         person1Movies = db[person1]
+    except KeyError:
+        person1Movies = findPersonRegex(db, person1)
+    try:
         person2Movies = db[person2]
     except KeyError:
-        for key in db:
-            if person1 in key:
-                person1Movies = db[key]
-            if person2 in key:
-                person2Movies = db[key]
+        person2Movies = findPersonRegex(db, person2)
 
     db.close()
     person1Movies = [(i[0], i[1]) for i in person1Movies]
@@ -35,10 +35,11 @@ def getRelationalMovies(person1, person2):
 
 if __name__ == '__main__':
 
-    person1 = 'Angelina Jolie'
-    person2 = 'Kristen Hager'
+    person1 = 'Seth Rogen'
+    person2 = 'Jonah Hill'
     print("Peliculas entre: {} y {}".format(person1, person2))
-    print(getRelationalMovies(person1, person2))
-    person2 = 'Rachel Appleton'
+    displayResults(getRelationalMovies(person1, person2))
+    person1 = 'Daniel Radcliffe'
+    person2 = 'Ralph Fiennes'
     print("Peliculas entre: {} y {}".format(person1, person2))
-    print(getRelationalMovies(person1, person2))
+    displayResults(getRelationalMovies(person1, person2))
