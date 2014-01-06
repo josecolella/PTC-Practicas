@@ -45,6 +45,28 @@ def getFileModDate(urlToParse, filename):
     return date
 
 
+def mergeDictionary(dict1, dict2):
+    """
+    Devuelve un diccionario que esta compuesto de los dos diccionarios
+    que se pasan como parametro. Esto significa que si hay una llave
+    que existe en los dos diccionarios, el nuevo diccionario tendra
+    la agregacion de los valores de dicha llave
+
+    @param dict1 primer diccionario
+    @param dict2 segundo diccionario
+    @return dict
+    """
+    mergedDict = {}
+    for i, j in zip(dict1, dict2):
+        if i not in mergedDict:
+            mergedDict[i] = set()
+        if j not in mergedDict:
+            mergedDict[j] = set()
+        mergedDict[i].update(dict1[i])
+        mergedDict[j].update(dict2[j])
+    return mergedDict
+
+
 def displayResults(searchResults):
     """
     Imprime la información de actor/actriz, peliculas, año, y rol
