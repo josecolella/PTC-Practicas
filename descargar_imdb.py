@@ -202,7 +202,7 @@ if __name__ == '__main__':
     else:
         print("La información de los actores ya esta en las bases de datos")
 
-    if hasChangedActorFile:
+    if hasChangedActorFile and hasChangedActressFile:
         print("Uniendo los diccionarios de peliculas de actrices/actores")
         # Saving degree of separation information for both actors and actresses
         merged = mergeDictionary(actorMovieDB, actressMovieDB)
