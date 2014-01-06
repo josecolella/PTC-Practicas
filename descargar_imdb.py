@@ -89,7 +89,6 @@ def processFile(file):
 
     db = {}
     moviedb = {}
-    actorsWorkedWith = {}
     for i in f:
         # Actor plus first movie
         match = re.search(actorFirstMovieRegex, i)
@@ -152,15 +151,34 @@ def processFile(file):
     return db, moviedb
 
 
+def mergeDictionary(dict1, dict2):
+    mergedDict = {}
+    for i, j in zip(dict1, dict2):
+        if i not in mergedDict:
+            mergedDict[i] = set()
+        if j not in mergedDict:
+            mergedDict[j] = set()
+        mergedDict[i].update(dict1[i])
+        mergedDict[j].update(dict2[j])
+    return mergedDict
+
+
 def processActorsWorkedWith(movieDB):
+    """
+    Función que devuelve cada actor/ actriz con todos
+    los actores/actrices con quien han trabajado
+
+    @return dict Diccionario el la cual todas las personas son llaves
+    y tienen como valor todos los actores/actrices
+    """
     actorsWorkedWith = {}
     for i in movieDB.values():
         for j in i:
-            workedWith = [actor for actor in i if actor != j]
+            workedWith = i.difference({j})
             if j not in actorsWorkedWith:
                 actorsWorkedWith[j] = workedWith
             else:
-                actorsWorkedWith[j].extend(workedWith)
+                actorsWorkedWith[j].update(workedWith)
     return actorsWorkedWith
 
 
@@ -169,7 +187,7 @@ if __name__ == '__main__':
     # Descarga lista de actrices
     normalActress = getFilenameUrl(actressListUrl)[0]
     # Descarga del fichero de las actrices
-    hasChangedActressFile = downloadFile(actressListUrl, normalActress)
+    # hasChangedActressFile = downloadFile(actressListUrl, normalActress)
 
     # Procesamiento de información
     # if hasChangedActressFile:
@@ -177,23 +195,27 @@ if __name__ == '__main__':
     print("Las actrices se estan grabando")
     saveDatabase('moviedb.bin', actressdb)
     print("Las actrices han sido grabada")
-    print("Guardando información sobre grados de separación")
-    saveDatabase('degree.bin', actressMovieDB)
-    print("información sobre el grado de información se ha grabado")
+
 # else:
     # print("La información de las actrices ya esta en las bases de datos")
 
     # Descargar lista de actores
-    # normalActor = getFilenameUrl(actorsListUrl)[0]
+    normalActor = getFilenameUrl(actorsListUrl)[0]
     # Descarga lista de actores
     # hasChangedActorFile = downloadFile(actorsListUrl, normalActor)
 
     # Procesamiento de información
     # if hasChangedActorFile:
-    #     actordb, actorMovieDB = processFile(normalActor)
-    #     saveDatabase('moviedb.bin', actordb)
-    #     print("Los actores han sido grabada")
-    #     saveDatabase('degree.bin', actorMovieDB)
-    #     print("Las peliculas de los actores han sido grabadas")
+    actordb, actorMovieDB = processFile(normalActor)
+    print("Los actores se estan grabando")
+    saveDatabase('moviedb.bin', actordb)
+    print("Los actores han sido grabada")
     # else:
-    #     print("La información de los actores ya esta en las bases de datos")
+        # print("La información de los actores ya esta en las bases de datos")
+
+    # Saving degree of separation information for both actors and actresses
+    merged = mergeDictionary(actorMovieDB, actressMovieDB)
+    actorsWorkedWithDB = processActorsWorkedWith(actorMovieDB)
+    # print("Guardando información sobre Grados de separación")
+    # saveDatabase('degree.bin', actorsWorkedWithDB)
+    # print("Información Grabada")
