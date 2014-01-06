@@ -152,6 +152,16 @@ def processFile(file):
 
 
 def mergeDictionary(dict1, dict2):
+    """
+    Devuelve un diccionario que esta compuesto de los dos diccionarios
+    que se pasan como parametro. Esto significa que si hay una llave
+    que existe en los dos diccionarios, el nuevo diccionario tendra
+    la agregacion de los valores de dicha llave
+
+    @param dict1 primer diccionario
+    @param dict2 segundo diccionario
+    @return dict
+    """
     mergedDict = {}
     for i, j in zip(dict1, dict2):
         if i not in mergedDict:
@@ -213,9 +223,15 @@ if __name__ == '__main__':
     # else:
         # print("La información de los actores ya esta en las bases de datos")
 
+    print("Uniendo los dos diccionario de peliculas")
     # Saving degree of separation information for both actors and actresses
     merged = mergeDictionary(actorMovieDB, actressMovieDB)
-    actorsWorkedWithDB = processActorsWorkedWith(actorMovieDB)
-    # print("Guardando información sobre Grados de separación")
-    # saveDatabase('degree.bin', actorsWorkedWithDB)
-    # print("Información Grabada")
+    # Liberar memoria
+    del actorMovieDB
+    del actressMovieDB
+    print("Procesando relaciones entre actores/actrices")
+    actorsWorkedWithDB = processActorsWorkedWith(merged)
+
+    print("Guardando Información sobre Grados de separación")
+    saveDatabase('degree.bin', actorsWorkedWithDB)
+    print("Información Grabada")
