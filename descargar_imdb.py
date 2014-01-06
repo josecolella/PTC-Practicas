@@ -199,31 +199,30 @@ if __name__ == '__main__':
     # Descarga lista de actrices
     normalActress = getFilenameUrl(actressListUrl)[0]
     # Descarga del fichero de las actrices
-    # hasChangedActressFile = downloadFile(actressListUrl, normalActress)
+    hasChangedActressFile = downloadFile(actressListUrl, normalActress)
 
     # Procesamiento de información
-    # if hasChangedActressFile:
-    actressdb, actressMovieDB = processFile(normalActress)
-    print("Las actrices se estan grabando")
-    saveDatabase('moviedb.bin', actressdb)
-    print("Las actrices han sido grabada")
-
-# else:
-    # print("La información de las actrices ya esta en las bases de datos")
+    if hasChangedActressFile:
+        actressdb, actressMovieDB = processFile(normalActress)
+        print("Las actrices se estan grabando")
+        saveDatabase('moviedb.bin', actressdb)
+        print("Las actrices han sido grabada")
+    else:
+        print("La información de las actrices ya esta en las bases de datos")
 
     # Descargar lista de actores
     normalActor = getFilenameUrl(actorsListUrl)[0]
     # Descarga lista de actores
-    # hasChangedActorFile = downloadFile(actorsListUrl, normalActor)
+    hasChangedActorFile = downloadFile(actorsListUrl, normalActor)
 
     # Procesamiento de información
-    # if hasChangedActorFile:
-    actordb, actorMovieDB = processFile(normalActor)
-    print("Los actores se estan grabando")
-    saveDatabase('moviedb.bin', actordb)
-    print("Los actores han sido grabada")
-    # else:
-        # print("La información de los actores ya esta en las bases de datos")
+    if hasChangedActorFile:
+        actordb, actorMovieDB = processFile(normalActor)
+        print("Los actores se estan grabando")
+        saveDatabase('moviedb.bin', actordb)
+        print("Los actores han sido grabada")
+    else:
+        print("La información de los actores ya esta en las bases de datos")
 
     print("Uniendo los dos diccionario de peliculas")
     # Saving degree of separation information for both actors and actresses
