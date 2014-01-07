@@ -58,12 +58,13 @@ def mergeDictionary(dict1, dict2):
     @return dict
     """
     mergedDict = {}
-    for i, j in zip(dict1, dict2):
+    for i in dict1:
         if i not in mergedDict:
             mergedDict[i] = set()
+        mergedDict[i].update(dict1[i])
+    for j in dict2:
         if j not in mergedDict:
             mergedDict[j] = set()
-        mergedDict[i].update(dict1[i])
         mergedDict[j].update(dict2[j])
     return mergedDict
 
@@ -86,10 +87,10 @@ def findPersonRegex(db, personName):
     # Si no se consigue persona
     possibleDict = {}
     actorRegex = re.compile(personName + '\s*(\(.*?\))?')
-    print("Mutiples personas con nombre: {}".format(personName))
     possiblePeopleList = list(
         filter(lambda i: re.search(actorRegex, i), db.keys()))
     if len(possiblePeopleList) > 0:
+        print("Mutiples personas con nombre: {}".format(personName))
         for possiblePeople in possiblePeopleList:
             possibleDict[possiblePeople] = db[possiblePeople]
     return possibleDict

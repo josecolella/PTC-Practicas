@@ -50,8 +50,14 @@ def degreeSeparation(person1, person2):
 if __name__ == '__main__':
 
     # Las personas a buscar
-    person1 = 'Kristen Hager'
-    person2 = 'Rachel Appleton'
+    person1 = 'Rachel Appleton'
+    person2 = 'Kristen Hager'
+    shortestPath, length = degreeSeparation(person1, person2)
+    print("Camino entre {} y {}".format(person1, person2))
+    print("El camino más corto es: {}".format(shortestPath))
+    print("El grado de separación es: {}".format(length))
+
+    person1 = 'Benedict Cumberbatch'
     shortestPath, length = degreeSeparation(person1, person2)
     print("Camino entre {} y {}".format(person1, person2))
     print("El camino más corto es: {}".format(shortestPath))

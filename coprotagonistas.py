@@ -35,11 +35,10 @@ def getRelationalMovies(person1, person2):
 
 if __name__ == '__main__':
 
-    person1 = 'Seth Rogen'
-    person2 = 'Jonah Hill'
+    person2 = 'Rachel Appleton'
+    person1 = 'Carl Chase (I)'
     print("Peliculas entre: {} y {}".format(person1, person2))
     displayResults(getRelationalMovies(person1, person2))
-    person1 = 'Daniel Radcliffe'
-    person2 = 'Ralph Fiennes'
-    print("Peliculas entre: {} y {}".format(person1, person2))
-    displayResults(getRelationalMovies(person1, person2))
+    # person2 = 'Zachary Quinto'
+    # print("Peliculas entre: {} y {}".format(person1, person2))
+    # displayResults(getRelationalMovies(person1, person2))

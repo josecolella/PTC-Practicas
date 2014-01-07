@@ -80,9 +80,9 @@ def processFile(file):
         file) == str, 'El parametro tiene que ser una cadena de caracteres'
     # Las expresiones regulares usadas
     movieRegex = re.compile(
-        '\s+([\d?\D]+).\(([0-9?]+)(?:/\w+)?\)(?:[^[]+)?\[?([^\]]+)?')
+        '\s+([^\(]+).\(([0-9?]+)(?:/\w+)?\)(?:[^[]+)?\[?([^\]]+)?')
     actorFirstMovieRegex = re.compile(
-        '^([a-zA-Z.? ?]+),(.\w{4,})\s*(\(.*?\))?([\d?\D]+).\(([0-9?]+)(?:/\w+)?\)(?:[^[]+)?\[?([^\]]+)?')
+        '^([a-zA-Z.? ?]+),(.\w{4,})\s*(\(.*?\))?([^\(]+).\(([0-9?]+)(?:/\w+)?\)(?:[^[]+)?\[?([^\]]+)?')
 
     f = codecs.iterdecode(gzip.open(file), 'latin-1')
 
@@ -180,10 +180,13 @@ if __name__ == '__main__':
     # Procesamiento de información
     if hasChangedActressFile:
         print("Las actrices se estan procesando")
-        actressdb, actressMovieDB = processFile(normalActress)
-        print("Las actrices se estan grabando")
-        saveDatabase('moviedb.bin', actressdb)
-        print("Las actrices han sido grabada")
+        # actressdb, actressMovieDB = processFile(normalActress)
+        actressMovieDB = processFile(normalActress)[1]
+        # print("Las actrices se estan grabando")
+        # saveDatabase('moviedb.bin', actressdb)
+        # print("Las actrices han sido grabada")
+        print('Guardando peliculas de las actrices')
+        saveDatabase('actressdb.bin', actressMovieDB)
     else:
         print("La información de las actrices ya esta en las bases de datos")
 
@@ -195,26 +198,29 @@ if __name__ == '__main__':
     # Procesamiento de información
     if hasChangedActorFile:
         print("Las actores se estan procesando")
-        actordb, actorMovieDB = processFile(normalActor)
-        print("Los actores se estan grabando")
-        saveDatabase('moviedb.bin', actordb)
-        print("Los actores han sido grabada")
+        # actordb, actorMovieDB = processFile(normalActor)
+        actorMovieDB = processFile(normalActor)[1]
+        # print("Los actores se estan grabando")
+        # saveDatabase('moviedb.bin', actordb)
+        # print("Los actores han sido grabada")
+        print('Guardando peliculas de los actores')
+        saveDatabase('actordb.bin', actorMovieDB)
     else:
         print("La información de los actores ya esta en las bases de datos")
 
-    if hasChangedActorFile and hasChangedActressFile:
-        print("Uniendo los diccionarios de peliculas de actrices/actores")
-        # Saving degree of separation information for both actors and actresses
-        merged = mergeDictionary(actorMovieDB, actressMovieDB)
-        # Liberar memoria
-        del actorMovieDB
-        del actressMovieDB
-        print("Procesando relaciones entre actores/actrices")
-        actorsWorkedWithDB = processActorsWorkedWith(merged)
+    # if hasChangedActorFile and hasChangedActressFile:
+    #     print("Uniendo los diccionarios de peliculas de actrices/actores")
+    #     # Saving degree of separation information for both actors and actresses
+    #     merged = mergeDictionary(actorMovieDB, actressMovieDB)
+    #     # Liberar memoria
+    #     del actorMovieDB
+    #     del actressMovieDB
+    #     print("Procesando relaciones entre actores/actrices")
+    #     actorsWorkedWithDB = processActorsWorkedWith(merged)
 
-        print("Guardando Información sobre Grados de separación")
-        saveDatabase('degree.bin', actorsWorkedWithDB)
-        #Liberar memoria
-        del actorsWorkedWithDB
-        print("Información Grabada")
-        sys.exit(0)
+    #     print("Guardando Información sobre Grados de separación")
+    #     saveDatabase('degree.bin', actorsWorkedWithDB)
+    #     # Liberar memoria
+    #     del actorsWorkedWithDB
+    #     print("Información Grabada")
+    #     sys.exit(0)
